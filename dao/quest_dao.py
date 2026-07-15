@@ -1,5 +1,5 @@
 from database.database import close_db, get_db
-from dao.participation_dao import get_free_slots,session_has_participants,time_to_minutes
+from dao.participation_dao import session_has_participants,get_free_slots,time_to_minutes
 
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 

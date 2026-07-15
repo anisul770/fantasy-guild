@@ -1,3 +1,6 @@
+import os
+
+from dotenv import load_dotenv
 from flask import Flask
 from flask_login import LoginManager
 
@@ -8,8 +11,10 @@ from routes.home_routes import home_bp
 from routes.profile_routes import profile_bp
 from routes.quest_routes import quest_bp
 
+load_dotenv()
+
 app = Flask(__name__)
-app.secret_key = "fantasy-guild-secret-key"
+app.secret_key = os.getenv("SECRET_KEY")
 
 login_manager = LoginManager()
 login_manager.login_view = "auth.login"

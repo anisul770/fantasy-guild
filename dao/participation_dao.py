@@ -95,8 +95,6 @@ def user_has_overlap(user_id, day, start_time, duration):
 
 
 def join_session(user_id, session_id, role, slots):
-    session = None
-
     session = get_session_detail(session_id)
     if not session:
         return False, "Session not found."
