@@ -1,5 +1,5 @@
 from database.database import close_db, get_db
-from dao.participation_dao import session_has_participants,get_free_slots,time_to_minutes
+from dao.participation_dao import time_to_minutes,get_free_slots
 
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
@@ -198,6 +198,8 @@ def update_quest_image(quest_id, image_url):
 
 
 def update_session(session_id, day, start_time, location):
+    from dao.participation_dao import session_has_participants
+
     if session_has_participants(session_id):
         return False, "Cannot edit: adventurers already joined."
 
@@ -223,6 +225,8 @@ def update_session(session_id, day, start_time, location):
 
 
 def delete_session(session_id):
+    from dao.participation_dao import session_has_participants
+
     if session_has_participants(session_id):
         return False, "Cannot cancel: adventurers already joined."
 

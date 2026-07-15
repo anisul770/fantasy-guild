@@ -1,5 +1,4 @@
 from database.database import close_db, get_db
-from dao.quest_dao import get_session_detail
 
 ROLE_LIMITS = {"Warrior": 4, "Mage": 3, "Healer": 2}
 
@@ -95,6 +94,8 @@ def user_has_overlap(user_id, day, start_time, duration):
 
 
 def join_session(user_id, session_id, role, slots):
+    from dao.quest_dao import get_session_detail
+
     session = get_session_detail(session_id)
     if not session:
         return False, "Session not found."
