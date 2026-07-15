@@ -1,5 +1,5 @@
 from database.database import close_db, get_db
-from dao.participation_dao import time_to_minutes,get_free_slots
+from dao.participation_dao import time_to_minutes
 
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
@@ -77,6 +77,7 @@ def get_sessions_for_home(day_filter="", quest_type_filter="", difficulty_filter
     for row in rows:
         item = dict(row)
         if role_filter:
+            from dao.participation_dao import get_free_slots
             if get_free_slots(item["session_id"], role_filter) <= 0:
                 continue
         sessions.append(item)
