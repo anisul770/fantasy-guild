@@ -29,9 +29,11 @@
                         <li class="list-group-item">
                             <strong>Total reserved places:</strong> {{ stats.total_reserved }}
                         </li>
-                        <li class="list-group-item">
-                            <strong>Most requested role:</strong> {{ stats.most_requested }}
-                        </li>
+                        {% if stats.total_reserved > 0 %}
+                            <li class="list-group-item">
+                                <strong>Most requested role:</strong> {{ stats.most_requested }}
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </section>
