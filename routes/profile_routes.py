@@ -2,7 +2,12 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 
 from dao.image_dao import save_quest_image
-from dao.participation_dao import get_session_stats, get_user_participations,session_has_participants
+from dao.participation_dao import (
+    get_session_reservations,
+    get_session_stats,
+    get_user_participations,
+    session_has_participants,
+)
 from dao.quest_dao import (
     create_quest,
     create_session,
@@ -105,6 +110,29 @@ def new_session():
             return redirect(url_for("profile.index"))
 
     return render_template("gm_new_session.html", quests=quests)
+
+
+@profile_bp.route("/gm/session/<int:session_id>/stats")
+@login_required
+def session_stats(session_id):
+    if current_user.role != "Guild Master":
+        flash("Only the Guild Master can view session reservation details.", "danger")
+        return redirect(url_for("home.index"))
+
+    session = get_session_detail(session_id)
+    if not session:
+        flash("Session not found.", "danger")
+        return redirect(url_for("profile.index"))
+
+    stats = get_session_stats(session_id)
+    reservations = get_session_reservations(session_id)
+
+    return render_template(
+        "gm_session_stats.html",
+        session=session,
+        stats=stats,
+        reservations=reservations,
+    )
 
 
 @profile_bp.route("/gm/session/<int:session_id>/edit", methods=["GET", "POST"])

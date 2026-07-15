@@ -26,14 +26,12 @@
                     <section class="session-box border rounded p-3 mb-2">
                         <p class="mb-1"><strong>{{ item.day_of_week }}</strong> at {{ item.start_time }} — {{ item.location }}</p>
                         <p class="text-muted small mb-2">
-                            Reserved: {{ session_stats[item.session_id].total_reserved }} |
-                            Most requested: {{ session_stats[item.session_id].most_requested }}
+                            Reserved: {{ session_stats[item.session_id].total_reserved }} places
+                            {% if session_stats[item.session_id].total_reserved > 0 %}
+                                · Most requested: {{ session_stats[item.session_id].most_requested }}
+                            {% endif %}
                         </p>
-                        <ul class="list-unstyled small mb-3">
-                            {% for role, data in session_stats[item.session_id].roles.items() %}
-                                <li>{{ role }}: {{ data.used }} used, {{ data.free }} free</li>
-                            {% endfor %}
-                        </ul>
+                        <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('profile.session_stats', session_id=item.session_id) }}">Reservation details</a>
                         <a class="btn btn-outline-primary btn-sm" href="{{ url_for('profile.edit_session', session_id=item.session_id) }}">Edit</a>
                         <form class="d-inline" method="post" action="{{ url_for('profile.remove_session', session_id=item.session_id) }}">
                             <button class="btn btn-outline-danger btn-sm" type="submit">Cancel session</button>

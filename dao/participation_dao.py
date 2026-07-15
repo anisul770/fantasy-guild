@@ -235,3 +235,27 @@ def get_session_stats(session_id):
         "most_requested": most_requested,
         "total_reserved": total_reserved,
     }
+
+
+def get_session_reservations(session_id):
+    conn = get_db()
+    rows = conn.execute(
+        """
+        SELECT
+            p.id AS participation_id,
+            p.role_category,
+            p.slots_reserved,
+            u.id AS user_id,
+            u.username,
+            u.email,
+            u.first_name,
+            u.last_name
+        FROM participations AS p
+        JOIN users AS u ON u.id = p.user_id
+        WHERE p.session_id = ?
+        ORDER BY p.role_category, u.last_name, u.first_name
+        """,
+        (session_id,),
+    ).fetchall()
+    close_db(conn)
+    return rows

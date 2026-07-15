@@ -8,6 +8,7 @@
         <h1 class="text-warning">{{ session.title }}</h1>
         <p class="mb-0">{{ session.description }}</p>
         {% if current_user.is_authenticated and current_user.role == 'Guild Master' %}
+            <a class="btn btn-outline-light btn-sm mt-2" href="{{ url_for('profile.session_stats', session_id=session.session_id) }}">Reservation details</a>
             <a class="btn btn-outline-light btn-sm mt-2" href="{{ url_for('profile.edit_session', session_id=session.session_id) }}">Edit</a>
         {% endif %}
     </section>
