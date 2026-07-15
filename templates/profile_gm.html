@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Guild Master Profile{% endblock %}
+
+{% block content %}
+<section class="card profile-banner mb-4 border-start border-warning border-4">
+    <div class="card-body">
+        <h1 class="h3">Guild Master Profile</h1>
+        <p class="text-muted">Hello <strong>{{ current_user.first_name }} {{ current_user.last_name }}</strong></p>
+        <a class="btn btn-primary btn-sm me-2" href="{{ url_for('profile.new_quest') }}">Create quest</a>
+        <a class="btn btn-outline-primary btn-sm" href="{{ url_for('profile.new_session') }}">Schedule session</a>
+    </div>
+</section>
+
+<section>
+    <h2 class="h5 section-title mb-3">Scheduled sessions by quest</h2>
+    {% for quest_title, items in grouped_sessions.items() %}
+        <article class="card guild-card mb-3">
+            <div class="card-body">
+                <h3 class="h6 mb-3">{{ quest_title }}</h3>
+                {% if not items %}
+                    <p class="text-muted small mb-0">No sessions scheduled yet.</p>
+                    <a class="btn btn-outline-primary btn-sm" href="{{ url_for('profile.new_session') }}">Schedule session</a>
+                {% endif %}
+                {% for item in items %}
+                    <section class="session-box border rounded p-3 mb-2">
+                        <p class="mb-1"><strong>{{ item.day_of_week }}</strong> at {{ item.start_time }} — {{ item.location }}</p>
+                        <p class="text-muted small mb-2">
+                            Reserved: {{ session_stats[item.session_id].total_reserved }} |
+                            Most requested: {{ session_stats[item.session_id].most_requested }}
+                        </p>
+                        <ul class="list-unstyled small mb-3">
+                            {% for role, data in session_stats[item.session_id].roles.items() %}
+                                <li>{{ role }}: {{ data.used }} used, {{ data.free }} free</li>
+                            {% endfor %}
+                        </ul>
+                        <a class="btn btn-outline-primary btn-sm" href="{{ url_for('profile.edit_session', session_id=item.session_id) }}">Edit</a>
+                        <form class="d-inline" method="post" action="{{ url_for('profile.remove_session', session_id=item.session_id) }}">
+                            <button class="btn btn-outline-danger btn-sm" type="submit">Cancel session</button>
+                        </form>
+                    </section>
+                {% endfor %}
+            </div>
+        </article>
+    {% endfor %}
+</section>
+{% endblock %}

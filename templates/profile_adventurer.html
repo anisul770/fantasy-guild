@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<section class="card profile-banner mb-4 border-start border-warning border-4">
+    <div class="card-body">
+        <h1 class="h3">Adventurer Profile</h1>
+        <p class="text-muted mb-0">Hello <strong>{{ current_user.first_name }} {{ current_user.last_name }}</strong> ({{ current_user.username }})</p>
+    </div>
+</section>
+
+<section>
+    <h2 class="h5 section-title mb-3">My quest participations</h2>
+    {% if participations %}
+        {% for item in participations %}
+            <article class="card guild-card mb-3">
+                <div class="card-body">
+                    <h3 class="h6 card-title">{{ item.title }}</h3>
+                    <p class="text-muted small mb-1">{{ item.day_of_week }} at {{ item.start_time }} — {{ item.location }}</p>
+                    <p class="mb-3">
+                        <span class="badge text-bg-primary">{{ item.role_category }}</span>
+                        {{ item.slots_reserved }} place(s) reserved
+                    </p>
+
+                    <form class="row g-2" method="post" action="{{ url_for('quest.edit_participation', participation_id=item.participation_id) }}">
+                        <div class="col-md-4">
+                            <select class="form-select form-select-sm" name="role" required>
+                                {% for role in ['Warrior','Mage','Healer'] %}
+                                    <option value="{{ role }}" {% if role == item.role_category %}selected{% endif %}>{{ role }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select form-select-sm" name="slots" required>
+                                <option value="1" {% if item.slots_reserved == 1 %}selected{% endif %}>1 place</option>
+                                <option value="2" {% if item.slots_reserved == 2 %}selected{% endif %}>2 places</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-outline-primary btn-sm" type="submit">Update</button>
+                        </div>
+                    </form>
+
+                    <form class="mt-2 cancel-form" method="post" action="{{ url_for('quest.cancel', participation_id=item.participation_id) }}">
+                        <button class="btn btn-outline-danger btn-sm" type="submit">Cancel participation</button>
+                    </form>
+                </div>
+            </article>
+        {% endfor %}
+    {% else %}
+        <p class="alert alert-light empty-box text-center">You have not joined any quest session yet.</p>
+    {% endif %}
+</section>
+
+<script>
+document.querySelectorAll('.cancel-form').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+        if (!confirm('Do you want to cancel this participation?')) {
+            event.preventDefault();
+        }
+    });
+});
+</script>
+{% endblock %}

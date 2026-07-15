@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="center-page">
+    <div class="row justify-content-center w-100">
+        <section class="col-md-6 col-lg-5">
+            <div class="card auth-card p-4">
+                <header class="auth-header pb-2 mb-4">
+                    <h1 class="h3 mb-0">Register as Adventurer</h1>
+                </header>
+                <form id="registerForm" method="post" action="{{ url_for('auth.register') }}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input class="form-control" type="text" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input class="form-control" type="email" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="first_name" class="form-label">First name</label>
+                        <input class="form-control" type="text" id="first_name" name="first_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="last_name" class="form-label">Last name</label>
+                        <input class="form-control" type="text" id="last_name" name="last_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input class="form-control" type="password" id="password" name="password" required
+                            minlength="6">
+                    </div>
+                    <button class="btn btn-primary w-100" type="submit">Create account</button>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+    document.getElementById('registerForm').addEventListener('submit', (event) => {
+        const password = document.getElementById('password').value;
+        if (password.length < 6) {
+            alert('Password must be at least 6 characters.');
+            event.preventDefault();
+        }
+    });
+</script>
+{% endblock %}

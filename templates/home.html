@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Fantasy Adventure Guild{% endblock %}
+
+{% block content %}
+<section class="hero-box text-white rounded-3 p-4 mb-4">
+    <h1 class="text-warning">Weekly Quest Program</h1>
+    <p class="mb-0">Browse quests for the guild week and find your next adventure.</p>
+    
+    <span class="badge text-bg-warning text-dark mt-3">Simulated time: {{ simulated_day }} at {{ simulated_time }}</span>
+</section>
+
+<section class="card guild-card mb-4">
+    <div class="card-body">
+        <h2 class="h5 section-title mb-3">Filter sessions</h2>
+        <form method="get" action="{{ url_for('home.index') }}">
+            <div class="row g-3">
+                <div class="col-md-6 col-lg-3">
+                    <label for="day" class="form-label">Day</label>
+                    <select class="form-select" id="day" name="day">
+                        <option value="">All days</option>
+                        {% for day in ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] %}
+                            <option value="{{ day }}" {% if day_filter == day %}selected{% endif %}>{{ day }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <label for="quest_type" class="form-label">Quest type</label>
+                    <select class="form-select" id="quest_type" name="quest_type">
+                        <option value="">All types</option>
+                        {% for qtype in ['combat','exploration','puzzle','stealth','magic','survival'] %}
+                            <option value="{{ qtype }}" {% if quest_type_filter == qtype %}selected{% endif %}>{{ qtype }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <label for="difficulty" class="form-label">Difficulty</label>
+                    <select class="form-select" id="difficulty" name="difficulty">
+                        <option value="">All levels</option>
+                        {% for level in ['easy','medium','hard','legendary'] %}
+                            <option value="{{ level }}" {% if difficulty_filter == level %}selected{% endif %}>{{ level }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <label for="role" class="form-label">Free role</label>
+                    <select class="form-select" id="role" name="role">
+                        <option value="">Any role</option>
+                        {% for role in ['Warrior','Mage','Healer'] %}
+                            <option value="{{ role }}" {% if role_filter == role %}selected{% endif %}>{{ role }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-primary mt-3 me-2" type="submit">Apply filters</button>
+            <a class="btn btn-outline-secondary mt-3" href="{{ url_for('home.index') }}">Clear</a>
+        </form>
+    </div>
+</section>
+
+<section>
+    <h2 class="h5 section-title mb-3">Upcoming sessions</h2>
+    {% if sessions %}
+        <div class="row g-3">
+            {% for session in sessions %}
+                <div class="col-md-6 col-lg-4">
+                    <article class="card h-100 quest-card overflow-hidden">
+                        <div class="d-flex flex-row h-100">
+                            <div class="card-body">
+                                <h3 class="card-title h6">{{ session.title }}</h3>
+                                <p class="text-muted small mb-1">{{ session.day_of_week }} · {{ session.start_time }}</p>
+                                <p class="text-muted small mb-2">{{ session.location }}</p>
+                                <p class="mb-3">
+                                    <span class="badge text-bg-info">{{ session.quest_type }}</span>
+                                    <span class="badge badge-diff-{{ session.difficulty }}">{{ session.difficulty }}</span>
+                                </p>
+                                <a class="btn btn-outline-primary btn-sm" href="{{ url_for('quest.session_detail', session_id=session.session_id) }}">View details</a>
+                            </div>
+                            <img class="home-quest-image" src="{{ session.image_url }}" alt="{{ session.title }}">
+                        </div>
+                    </article>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="alert alert-light empty-box text-center">No sessions found with these filters.</p>
+    {% endif %}
+</section>
+{% endblock %}

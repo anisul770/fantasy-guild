@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}New Quest{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <section class="col-md-8 col-lg-6">
+        <div class="card guild-card p-4">
+            <header class="auth-header pb-2 mb-4">
+                <h1 class="h3 mb-0">Create a new quest</h1>
+            </header>
+            <form method="post" action="{{ url_for('profile.new_quest') }}" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input class="form-control" type="text" id="title" name="title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="duration" class="form-label">Duration (minutes)</label>
+                    <input class="form-control" type="number" id="duration" name="duration" min="1" required>
+                </div>
+                <div class="mb-3">
+                    <label for="quest_type" class="form-label">Quest type</label>
+                    <select class="form-select" id="quest_type" name="quest_type" required>
+                        {% for qtype in ['combat','exploration','puzzle','stealth','magic','survival'] %}
+                            <option value="{{ qtype }}">{{ qtype }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="difficulty" class="form-label">Difficulty</label>
+                    <select class="form-select" id="difficulty" name="difficulty" required>
+                        {% for level in ['easy','medium','hard','legendary'] %}
+                            <option value="{{ level }}">{{ level }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Quest image</label>
+                    <input class="form-control" type="file" id="image" name="image" accept="image/png,image/jpeg,image/webp" required>
+                </div>
+                <button class="btn btn-primary" type="submit">Save quest</button>
+                <a class="btn btn-outline-secondary" href="{{ url_for('profile.index') }}">Back</a>
+            </form>
+        </div>
+    </section>
+</div>
+{% endblock %}

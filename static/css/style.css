@@ -1,0 +1,175 @@
+/* Guild colors */
+
+body {
+    background-color: #f8f5ef;
+    color: #2a2438;
+    font-family: Georgia, "Times New Roman", serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.center-page {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h1, h2, h3, h4, h5, h6,
+.navbar-brand {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+/* Header and footer */
+.bg-guild {
+    background-color: #2d2142;
+}
+
+.navbar-dark .navbar-brand {
+    color: #f5e6b8;
+    letter-spacing: 0.5px;
+}
+
+.navbar-dark .nav-link {
+    color: #efe8dc;
+}
+
+.navbar-dark .nav-link:hover {
+    color: #e8c872;
+}
+
+.site-footer {
+    background-color: #2d2142;
+    color: #efe8dc;
+}
+
+/* Purple hero banner */
+.hero-box {
+    background-color: #3b2d5c;
+    box-shadow: 0 4px 12px rgba(45, 33, 66, 0.2);
+}
+
+.hero-box h1 {
+    margin-bottom: 0.5rem;
+}
+
+.hero-box p {
+    color: #e8e0d4;
+}
+
+/* Section titles with gold line */
+.section-title {
+    color: #2d2142;
+    border-bottom: 3px solid #e8c872;
+    padding-bottom: 0.4rem;
+}
+
+/* Cards */
+.guild-card {
+    border-color: #e2d9cc;
+    box-shadow: 0 2px 8px rgba(42, 36, 56, 0.08);
+}
+
+.quest-card {
+    border-color: #e2d9cc;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.quest-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(42, 36, 56, 0.12);
+}
+
+.quest-card .card-title {
+    color: #2d2142;
+}
+
+/* Profile welcome box */
+.profile-banner {
+    border-color: #e2d9cc;
+    box-shadow: 0 2px 8px rgba(42, 36, 56, 0.08);
+}
+
+.profile-banner p {
+    color: #5c5368;
+}
+
+/* Guild Master session box */
+.session-box {
+    background-color: #faf7f2;
+    border-color: #e8e0d4;
+}
+
+/* Login and register form */
+.auth-card {
+    border-color: #e2d9cc;
+    box-shadow: 0 4px 14px rgba(42, 36, 56, 0.1);
+}
+
+.auth-header {
+    border-bottom: 2px solid #e8c872;
+}
+
+/* Buttons */
+.btn-primary {
+    --bs-btn-bg: #3b2d5c;
+    --bs-btn-border-color: #3b2d5c;
+    --bs-btn-hover-bg: #2d2142;
+    --bs-btn-hover-border-color: #2d2142;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #3b2d5c;
+    --bs-btn-border-color: #3b2d5c;
+    --bs-btn-hover-bg: #3b2d5c;
+    --bs-btn-hover-border-color: #3b2d5c;
+}
+
+/* Quest image on detail page */
+.quest-image {
+    max-height: 280px;
+    object-fit: cover;
+    border: 1px solid #e2d9cc;
+}
+
+/* Small quest image on home cards */
+.home-quest-image {
+    width: 200px;
+    min-width: 110px;
+    object-fit:cover;
+    border-left: 1px solid #e2d9cc;
+}
+
+/* Empty state message */
+.empty-box {
+    border-style: dashed;
+    color: #5c5368;
+}
+
+/* Difficulty level colors */
+.badge-diff-easy {
+    background-color: #4a8f5f;
+    color: #ffffff;
+}
+
+.badge-diff-medium {
+    background-color: #4a7c8c;
+    color: #ffffff;
+}
+
+.badge-diff-hard {
+    background-color: #b45309;
+    color: #ffffff;
+}
+
+.badge-diff-legendary {
+    background-color: #6b3fa0;
+    color: #f5e6b8;
+}

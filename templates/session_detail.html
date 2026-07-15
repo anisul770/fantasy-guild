@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}{{ session.title }}{% endblock %}
+
+{% block content %}
+<article>
+    <section class="hero-box text-white rounded-3 p-4 mb-4">
+        <h1 class="text-warning">{{ session.title }}</h1>
+        <p class="mb-0">{{ session.description }}</p>
+        {% if current_user.is_authenticated and current_user.role == 'Guild Master' %}
+            <a class="btn btn-outline-light btn-sm mt-2" href="{{ url_for('profile.edit_session', session_id=session.session_id) }}">Edit</a>
+        {% endif %}
+    </section>
+
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <img class="img-fluid rounded quest-image mb-3" src="{{ session.image_url }}" alt="{{ session.title }}">
+
+            <section class="card guild-card mb-4">
+                <div class="card-body">
+                    <h2 class="h5 section-title mb-3">Quest info</h2>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Duration:</strong> {{ session.duration }} minutes</li>
+                        <li class="list-group-item"><strong>Type:</strong> {{ session.quest_type }}</li>
+                        <li class="list-group-item">
+                            <strong>Difficulty:</strong>
+                            <span class="badge badge-diff-{{ session.difficulty }}">{{ session.difficulty }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="card guild-card mb-4">
+                <div class="card-body">
+                    <h2 class="h5 section-title mb-3">All sessions for this quest</h2>
+                    <ul class="list-group list-group-flush">
+                        {% for item in quest_sessions %}
+                            <li class="list-group-item">{{ item.day_of_week }} at {{ item.start_time }} — {{ item.location }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-lg-5">
+            <section class="card guild-card mb-4">
+                <div class="card-body">
+                    <h2 class="h5 section-title mb-3">This session</h2>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Day:</strong> {{ session.day_of_week }}</li>
+                        <li class="list-group-item"><strong>Start time:</strong> {{ session.start_time }}</li>
+                        <li class="list-group-item"><strong>Location:</strong> {{ session.location }}</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="card guild-card mb-4">
+                <div class="card-body">
+                    <h2 class="h5 section-title mb-3">Free places by role</h2>
+                    <ul class="list-group list-group-flush">
+                        {% for role, free in role_info.items() %}
+                            <li class="list-group-item">
+                                <span class="badge text-bg-primary">{{ role }}</span>
+                                {{ free }} free place(s)
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </section>
+
+            {% if current_user.is_authenticated and current_user.role == 'Adventurer' %}
+                <section class="card guild-card">
+                    <div class="card-body">
+                        <h2 class="h5 section-title mb-3">Join this session</h2>
+                        <form method="post" action="{{ url_for('quest.join', session_id=session.session_id) }}">
+                            <div class="mb-3">
+                                <label for="role" class="form-label">Role</label>
+                                <select class="form-select" id="role" name="role" required>
+                                    <option value="">Choose a role</option>
+                                    {% for role in ['Warrior','Mage','Healer'] %}
+                                        <option value="{{ role }}">{{ role }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="slots" class="form-label">Places (1 or 2)</label>
+                                <select class="form-select" id="slots" name="slots" required>
+                                    <option value="1">1 place</option>
+                                    <option value="2">2 places</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary w-100" type="submit">Join quest</button>
+                        </form>
+                    </div>
+                </section>
+            {% elif not current_user.is_authenticated %}
+                <section class="card guild-card">
+                    <div class="card-body">
+                        <p class="mb-0">Please <a href="{{ url_for('auth.login') }}">login</a> to join this session.</p>
+                    </div>
+                </section>
+            {% endif %}
+        </div>
+    </div>
+</article>
+{% endblock %}

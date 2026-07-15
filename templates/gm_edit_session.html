@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Session{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <section class="col-md-8 col-lg-6">
+        <div class="card guild-card p-4">
+            <header class="auth-header pb-2 mb-4">
+                <h1 class="h3 mb-0">Edit quest session</h1>
+                <p class="text-muted small mb-0">{{ session.title }}</p>
+            </header>
+            <form method="post" action="{{ url_for('profile.edit_session', session_id=session.session_id) }}" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="day" class="form-label">Day</label>
+                    <select class="form-select" id="day" name="day" required>
+                        {% for day in ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] %}
+                            <option value="{{ day }}" {% if day == session.day_of_week %}selected{% endif %}>{{ day }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="start_time" class="form-label">Start time</label>
+                    <input class="form-control" type="time" id="start_time" name="start_time" value="{{ session.start_time }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <select class="form-select" id="location" name="location" required>
+                        {% for place in ['Dungeon Hall','Enchanted Forest','Wizard Tower'] %}
+                            <option value="{{ place }}" {% if place == session.location %}selected{% endif %}>{{ place }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label w-100">Quest image</label>
+                    <img id="questImagePreview" class="img-fluid rounded quest-image mb-2" src="{{ session.image_url }}" alt="{{ session.title }}">
+                    <input class="form-control" type="file" id="image" name="image" accept="image/png,image/jpeg,image/webp">
+                    <p class="form-text">Leave empty to keep the current image.</p>
+                </div>
+                <button class="btn btn-primary" type="submit">Update session</button>
+                <a class="btn btn-outline-secondary" href="{{ url_for('profile.index') }}">Back</a>
+            </form>
+        </div>
+    </section>
+</div>
+
+<script>
+const imageInput = document.getElementById('image');
+const imagePreview = document.getElementById('questImagePreview');
+const originalImage = imagePreview.src;
+
+imageInput.addEventListener('change', () => {
+    const file = imageInput.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            imagePreview.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    } else {
+        imagePreview.src = originalImage;
+    }
+});
+</script>
+{% endblock %}

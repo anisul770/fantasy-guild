@@ -1,0 +1,19 @@
+FANTASY ADVENTURE GUILD - TEST INFORMATION
+
+Simulated current day and time:
+Monday at 08:00
+
+Sample accounts (password for all: password123):
+
+Guild Master:
+- username: guildmaster
+- email: gm@guild.com
+
+Adventurers:
+- adventurer1 / adv1@guild.com
+- adventurer2 / adv2@guild.com
+- adventurer3 / adv3@guild.com
+- adventurer4 / adv4@guild.com
+
+Deployed URL:
+(Add your PythonAnywhere URL here before submission)

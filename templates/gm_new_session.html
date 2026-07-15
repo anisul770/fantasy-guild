@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}New Session{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <section class="col-md-8 col-lg-6">
+        <div class="card guild-card p-4">
+            <header class="auth-header pb-2 mb-4">
+                <h1 class="h3 mb-0">Schedule a quest session</h1>
+            </header>
+            <form method="post" action="{{ url_for('profile.new_session') }}">
+                <div class="mb-3">
+                    <label for="quest_id" class="form-label">Quest</label>
+                    <select class="form-select" id="quest_id" name="quest_id" required>
+                        <option value="">Choose a quest</option>
+                        {% for quest in quests %}
+                            <option value="{{ quest.id }}">{{ quest.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="day" class="form-label">Day</label>
+                    <select class="form-select" id="day" name="day" required>
+                        {% for day in ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] %}
+                            <option value="{{ day }}">{{ day }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="start_time" class="form-label">Start time</label>
+                    <input class="form-control" type="time" id="start_time" name="start_time" required>
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <select class="form-select" id="location" name="location" required>
+                        {% for place in ['Dungeon Hall','Enchanted Forest','Wizard Tower'] %}
+                            <option value="{{ place }}">{{ place }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button class="btn btn-primary" type="submit">Save session</button>
+                <a class="btn btn-outline-secondary" href="{{ url_for('profile.index') }}">Back</a>
+            </form>
+        </div>
+    </section>
+</div>
+{% endblock %}
