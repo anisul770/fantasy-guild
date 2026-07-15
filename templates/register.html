@@ -29,8 +29,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input class="form-control" type="password" id="password" name="password" required
-                            minlength="6">
+                        <input class="form-control" type="password" id="password" name="password" required minlength="6">
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirm password</label>
+                        <input class="form-control" type="password" id="confirm_password" name="confirm_password" required minlength="6">
                     </div>
                     <button class="btn btn-primary w-100" type="submit">Create account</button>
                 </form>
@@ -42,8 +45,10 @@
 <script>
     document.getElementById('registerForm').addEventListener('submit', (event) => {
         const password = document.getElementById('password').value;
-        if (password.length < 6) {
-            alert('Password must be at least 6 characters.');
+        const confirmPassword = document.getElementById('confirm_password').value;
+
+        if (password !== confirmPassword) {
+            alert('Passwords do not match.');
             event.preventDefault();
         }
     });

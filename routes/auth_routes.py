@@ -44,13 +44,18 @@ def register():
         first_name = request.form.get("first_name", "").strip()
         last_name = request.form.get("last_name", "").strip()
         password = request.form.get("password", "").strip()
+        confirm_password = request.form.get("confirm_password", "").strip()
 
-        if not all([username, email, first_name, last_name, password]):
+        if not all([username, email, first_name, last_name, password, confirm_password]):
             flash("Please fill in all fields.", "danger")
             return render_template("register.html")
 
         if len(password) < 6:
             flash("Password must be at least 6 characters.", "danger")
+            return render_template("register.html")
+
+        if password != confirm_password:
+            flash("Passwords do not match.", "danger")
             return render_template("register.html")
 
         ok, message = create_user(username, email, first_name, last_name, password)
